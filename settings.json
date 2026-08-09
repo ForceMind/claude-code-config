@@ -1,0 +1,9 @@
+{
+  "model": "sonnet",
+  "theme": "light",
+  "statusLine": {
+    "type": "command",
+    "command": "python3 ~/.claude/statusline.py",
+    "padding": 1
+  }
+}
