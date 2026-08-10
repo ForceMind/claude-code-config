@@ -2,9 +2,10 @@
 """Claude Code custom status line.
 
 Reads the status-line JSON payload from stdin (see
-https://code.claude.com/docs/en/statusline.md) and renders two lines:
-branch/model/context/tokens, then cost/quota. Uses only the stdlib so it
-works on any machine with python3 preinstalled, no extra deps to restore.
+https://code.claude.com/docs/en/statusline.md) and renders a single
+plain-text line: branch, model, context %, tokens, cost, 5h/7d quota.
+Uses only the stdlib so it works on any machine with python3
+preinstalled, no extra deps to restore.
 """
 import json
 import os
@@ -50,7 +51,7 @@ def fmt_duration(seconds):
         return "-"
     seconds = int(seconds)
     if seconds <= 0:
-        return "重置中"
+        return "now"
     days, rem = divmod(seconds, 86400)
     hours, rem = divmod(rem, 3600)
     minutes, _ = divmod(rem, 60)
@@ -116,33 +117,25 @@ seven_d_reset = get(data, "rate_limits.seven_day.resets_at")
 
 now = time.time()
 
-# ---- line 1: branch | model | context | tokens ----
-parts1 = []
+# ---- single line: branch | model | context | tokens | cost | 5h | 7d ----
+parts = []
 if branch:
-    parts1.append(f"🌿 {branch}")
-parts1.append(f"🤖 {model}")
+    parts.append(branch)
+parts.append(model)
 if ctx_pct is not None:
     c = color_for_pct(ctx_pct)
-    parts1.append(f"📊 ctx {c}{ctx_pct:.0f}%{RESET}")
+    parts.append(f"ctx {c}{ctx_pct:.0f}%{RESET}")
 if token_total is not None:
-    parts1.append(f"🔤 {fmt_tokens(token_total)}tok")
-
-# ---- line 2: cost | 5h quota | 7d quota ----
-parts2 = []
+    parts.append(f"tok {fmt_tokens(token_total)}")
 if cost is not None:
-    parts2.append(f"💰 ${cost:.2f}{DIM}(预估){RESET}")
+    parts.append(f"cost ${cost:.2f}{DIM}(est){RESET}")
 if five_h_pct is not None:
     c = color_for_pct(five_h_pct)
     remain = fmt_duration(five_h_reset - now) if five_h_reset else "-"
-    parts2.append(f"⏳5h {c}{five_h_pct:.0f}%{RESET} 重置:{remain}")
+    parts.append(f"5h {c}{five_h_pct:.0f}%{RESET} reset {remain}")
 if seven_d_pct is not None:
     c = color_for_pct(seven_d_pct)
     remain = fmt_duration(seven_d_reset - now) if seven_d_reset else "-"
-    parts2.append(f"⏳7d {c}{seven_d_pct:.0f}%{RESET} 重置:{remain}")
+    parts.append(f"7d {c}{seven_d_pct:.0f}%{RESET} reset {remain}")
 
-line1 = " │ ".join(parts1)
-line2 = " │ ".join(parts2)
-
-print(line1)
-if line2:
-    print(line2)
+print(" | ".join(parts))
