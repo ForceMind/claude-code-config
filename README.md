@@ -29,7 +29,7 @@ cd claude-code-config
 单行纯文字（不用 emoji），事件驱动刷新（新消息 / 会话开始等触发，参考 [官方 statusLine 文档](https://code.claude.com/docs/en/statusline.md)）：
 
 ```
-main | Sonnet 5 | ctx 34% | tok 95.9k | cost $1.23(est) | 5h 22% reset 3h19m | 7d 71% reset 2d4h
+main | Sonnet 5 | 上下文 34% | 已用 95.9k | 花费 $1.23(预估) | 5h额度 22% 重置3h19m | 7d额度 71% 重置2d4h
 ```
 
 - **分支**：对当前工作目录跑 `git branch --show-current`，非 git 目录不显示。

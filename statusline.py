@@ -51,7 +51,7 @@ def fmt_duration(seconds):
         return "-"
     seconds = int(seconds)
     if seconds <= 0:
-        return "now"
+        return "重置中"
     days, rem = divmod(seconds, 86400)
     hours, rem = divmod(rem, 3600)
     minutes, _ = divmod(rem, 60)
@@ -124,18 +124,18 @@ if branch:
 parts.append(model)
 if ctx_pct is not None:
     c = color_for_pct(ctx_pct)
-    parts.append(f"ctx {c}{ctx_pct:.0f}%{RESET}")
+    parts.append(f"上下文 {c}{ctx_pct:.0f}%{RESET}")
 if token_total is not None:
-    parts.append(f"tok {fmt_tokens(token_total)}")
+    parts.append(f"已用 {fmt_tokens(token_total)}")
 if cost is not None:
-    parts.append(f"cost ${cost:.2f}{DIM}(est){RESET}")
+    parts.append(f"花费 ${cost:.2f}{DIM}(预估){RESET}")
 if five_h_pct is not None:
     c = color_for_pct(five_h_pct)
     remain = fmt_duration(five_h_reset - now) if five_h_reset else "-"
-    parts.append(f"5h {c}{five_h_pct:.0f}%{RESET} reset {remain}")
+    parts.append(f"5h额度 {c}{five_h_pct:.0f}%{RESET} 重置{remain}")
 if seven_d_pct is not None:
     c = color_for_pct(seven_d_pct)
     remain = fmt_duration(seven_d_reset - now) if seven_d_reset else "-"
-    parts.append(f"7d {c}{seven_d_pct:.0f}%{RESET} reset {remain}")
+    parts.append(f"7d额度 {c}{seven_d_pct:.0f}%{RESET} 重置{remain}")
 
 print(" | ".join(parts))
