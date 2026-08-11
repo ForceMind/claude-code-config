@@ -23,7 +23,6 @@ RESET = "\033[0m"
 GREEN = "\033[32m"
 YELLOW = "\033[33m"
 RED = "\033[31m"
-DIM = "\033[2m"
 
 
 def color_for_pct(pct):
@@ -128,14 +127,14 @@ if ctx_pct is not None:
 if token_total is not None:
     parts.append(f"已用 {fmt_tokens(token_total)}")
 if cost is not None:
-    parts.append(f"花费 ${cost:.2f}{DIM}(预估){RESET}")
+    parts.append(f"花费 ${cost:.2f}")
 if five_h_pct is not None:
     c = color_for_pct(five_h_pct)
     remain = fmt_duration(five_h_reset - now) if five_h_reset else "-"
-    parts.append(f"5h额度 {c}{five_h_pct:.0f}%{RESET} 重置{remain}")
+    parts.append(f"5h {c}{five_h_pct:.0f}%{RESET} {remain}")
 if seven_d_pct is not None:
     c = color_for_pct(seven_d_pct)
     remain = fmt_duration(seven_d_reset - now) if seven_d_reset else "-"
-    parts.append(f"7d额度 {c}{seven_d_pct:.0f}%{RESET} 重置{remain}")
+    parts.append(f"7d {c}{seven_d_pct:.0f}%{RESET} {remain}")
 
 print(" | ".join(parts))
