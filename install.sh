@@ -24,7 +24,7 @@ backup_and_copy() {
   echo "已安装: $dest"
 }
 
-backup_and_copy "$REPO_DIR/CLAUDE.md" "$CLAUDE_DIR/CLAUDE.md"
+backup_and_copy "$REPO_DIR/CLAUDE.global.md" "$CLAUDE_DIR/CLAUDE.md"
 backup_and_copy "$REPO_DIR/statusline.py" "$CLAUDE_DIR/statusline.py"
 chmod +x "$CLAUDE_DIR/statusline.py"
 

@@ -6,7 +6,8 @@
 
 | 文件 | 对应位置 | 作用 |
 |---|---|---|
-| `CLAUDE.md` | `~/.claude/CLAUDE.md` | 全局提示词：任务持续执行原则、方案先确认再执行、复杂任务才问要不要用多智能体协作等 |
+| `CLAUDE.global.md` | `~/.claude/CLAUDE.md` | 全局提示词：硬性条款、语言与表达、模型分工与子代理、方案先确认再执行、证据与验证、风险分级等 |
+| `CLAUDE.md` | 不安装 | 本仓库自身的项目指令：改完如何同步、提交、推送 |
 | `settings.json` | `~/.claude/settings.json` | 默认模型/主题 + 状态栏配置 |
 | `statusline.py` | `~/.claude/statusline.py` | 终端状态栏脚本 |
 | `install.sh` | — | 一键恢复脚本 |
@@ -20,7 +21,7 @@ cd claude-code-config
 ```
 
 `install.sh` 会：
-- 把 `CLAUDE.md`、`statusline.py` 复制到 `~/.claude/`，如目标已存在且内容不同，先备份成 `xxx.bak.<时间戳>` 再覆盖；
+- 把 `CLAUDE.global.md`（安装为 `~/.claude/CLAUDE.md`）和 `statusline.py` 复制到 `~/.claude/`，如目标已存在且内容不同，先备份成 `xxx.bak.<时间戳>` 再覆盖；
 - 把 `settings.json` 里的键（`model` / `theme` / `statusLine`）**合并**进现有的 `~/.claude/settings.json`，不会丢掉这台机器上已有的其他设置（比如权限白名单）；
 - 全程不会静默覆盖任何文件。
 
@@ -45,7 +46,8 @@ main | Sonnet 5 | 上下文 34% | 已用 95.9k | 花费 $1.23 | 5h 22% 3h19m | 7
 在任意一台机器上改了 `~/.claude/CLAUDE.md` 或 `~/.claude/settings.json`，想同步回仓库：
 
 ```bash
-cp ~/.claude/CLAUDE.md ~/.claude/statusline.py ./
+cp ~/.claude/CLAUDE.md ./CLAUDE.global.md
+cp ~/.claude/statusline.py ./
 cp ~/.claude/settings.json ./settings.json   # 提交前检查一下有没有混入本机专属的敏感配置
 git add -A && git commit -m "sync" && git push
 ```
