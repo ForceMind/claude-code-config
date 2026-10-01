@@ -8,7 +8,7 @@
 |---|---|---|
 | `CLAUDE.global.md` | `~/.claude/CLAUDE.md` | 全局提示词：硬性条款、语言与表达、模型分工与子代理、方案先确认再执行、证据与验证、风险分级等 |
 | `CLAUDE.md` | 不安装 | 本仓库自身的项目指令：改完如何同步、提交、推送 |
-| `settings.json` | `~/.claude/settings.json` | 默认模型/主题 + 状态栏配置 |
+| `settings.json` | `~/.claude/settings.json` | 默认模型/各模型思考强度/主题 + 状态栏配置 |
 | `statusline.py` | `~/.claude/statusline.py` | 终端状态栏脚本 |
 | `install.sh` | — | 一键恢复脚本 |
 
@@ -22,7 +22,7 @@ cd claude-code-config
 
 `install.sh` 会：
 - 把 `CLAUDE.global.md`（安装为 `~/.claude/CLAUDE.md`）和 `statusline.py` 复制到 `~/.claude/`，如目标已存在且内容不同，先备份成 `xxx.bak.<时间戳>` 再覆盖；
-- 把 `settings.json` 里的键（`model` / `theme` / `statusLine`）**合并**进现有的 `~/.claude/settings.json`，不会丢掉这台机器上已有的其他设置（比如权限白名单）；
+- 把 `settings.json` 里的键（`model` / `modelSettings` / `theme` / `statusLine`）**合并**进现有的 `~/.claude/settings.json`，不会丢掉这台机器上已有的其他设置（比如权限白名单）；`modelSettings` 按模型逐个合并，本机为其他模型保存的思考强度也不会丢；
 - 全程不会静默覆盖任何文件。
 
 ## 状态栏效果
@@ -30,7 +30,7 @@ cd claude-code-config
 单行纯文字（不用 emoji），事件驱动刷新（新消息 / 会话开始等触发，参考 [官方 statusLine 文档](https://code.claude.com/docs/en/statusline.md)）：
 
 ```
-main | Sonnet 5 | 上下文 34% | 已用 95.9k | 花费 $1.23 | 5h 22% 3h19m | 7d 71% 2d4h
+main | Sonnet 5.5 | 上下文 34% | 已用 95.9k | 花费 $1.23 | 5h 22% 3h19m | 7d 71% 2d4h
 ```
 
 - **分支**：对当前工作目录跑 `git branch --show-current`，非 git 目录不显示。

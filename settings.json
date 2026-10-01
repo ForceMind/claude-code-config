@@ -1,5 +1,13 @@
 {
   "model": "sonnet",
+  "modelSettings": {
+    "claude-sonnet-5-5": {
+      "effortLevel": "medium"
+    },
+    "claude-opus-5-5": {
+      "effortLevel": "medium"
+    }
+  },
   "theme": "light",
   "statusLine": {
     "type": "command",

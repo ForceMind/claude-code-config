@@ -4,7 +4,7 @@
 #   cd claude-code-config && ./install.sh
 #
 # Existing files under ~/.claude are backed up (never silently overwritten).
-# settings.json is merged (top-level keys only) so other settings you've
+# settings.json is merged (top-level keys; modelSettings per model) so other settings you've
 # added on this machine (e.g. permissions) are preserved.
 set -euo pipefail
 
@@ -51,6 +51,10 @@ if os.path.exists(dest_path):
     print(f"已备份: {dest_path} -> {backup_path}")
 
 merged = {**existing, **repo_settings}
+# modelSettings holds per-model effort levels that /effort saves on this machine;
+# merge it per model so levels saved for models not listed in the repo survive.
+if isinstance(existing.get("modelSettings"), dict) and isinstance(repo_settings.get("modelSettings"), dict):
+    merged["modelSettings"] = {**existing["modelSettings"], **repo_settings["modelSettings"]}
 with open(dest_path, "w") as f:
     json.dump(merged, f, indent=2, ensure_ascii=False)
     f.write("\n")
