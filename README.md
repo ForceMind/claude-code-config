@@ -22,7 +22,7 @@ cd claude-code-config
 
 `install.sh` 会：
 - 把 `CLAUDE.global.md`（安装为 `~/.claude/CLAUDE.md`）和 `statusline.py` 复制到 `~/.claude/`，如目标已存在且内容不同，先备份成 `xxx.bak.<时间戳>` 再覆盖；
-- 把 `settings.json` 里的键（`model` / `modelSettings` / `theme` / `statusLine`）**合并**进现有的 `~/.claude/settings.json`，不会丢掉这台机器上已有的其他设置（比如权限白名单）；`modelSettings` 按模型逐个合并，本机为其他模型保存的思考强度也不会丢；
+- 把 `settings.json` 里的键（`model` / `modelSettings` / `theme` / `statusLine`）**合并**进现有的 `~/.claude/settings.json`，不会丢掉这台机器上已有的其他设置（比如权限白名单）；`modelSettings` 按模型、再按模型内的键逐个合并，本机为其他模型保存的设置、以及同一模型下仓库没列出的键（如 `autoCompactWindow`）都不会丢，仓库列出的键以仓库为准；
 - 全程不会静默覆盖任何文件。
 
 ## 状态栏效果

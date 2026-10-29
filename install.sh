@@ -51,10 +51,17 @@ if os.path.exists(dest_path):
     print(f"已备份: {dest_path} -> {backup_path}")
 
 merged = {**existing, **repo_settings}
-# modelSettings holds per-model effort levels that /effort saves on this machine;
-# merge it per model so levels saved for models not listed in the repo survive.
+# modelSettings holds per-model settings this machine saves (effort levels, autoCompactWindow, ...);
+# merge it per model and per key so models and keys not listed in the repo survive.
 if isinstance(existing.get("modelSettings"), dict) and isinstance(repo_settings.get("modelSettings"), dict):
-    merged["modelSettings"] = {**existing["modelSettings"], **repo_settings["modelSettings"]}
+    model_settings = dict(existing["modelSettings"])
+    for model, repo_model in repo_settings["modelSettings"].items():
+        local_model = model_settings.get(model)
+        if isinstance(local_model, dict) and isinstance(repo_model, dict):
+            model_settings[model] = {**local_model, **repo_model}
+        else:
+            model_settings[model] = repo_model
+    merged["modelSettings"] = model_settings
 with open(dest_path, "w") as f:
     json.dump(merged, f, indent=2, ensure_ascii=False)
     f.write("\n")
